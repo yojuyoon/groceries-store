@@ -15,7 +15,8 @@ type Props = {
 export default function ProductDetailPage({ params }: Props) {
   const { id } = use(params);
   const [quantity, setQuantity] = useState(1);
-  const [product, setProduct] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [product, setProduct] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,8 +25,10 @@ export default function ProductDetailPage({ params }: Props) {
   const addToCart = useCartStore((state) => state.addToCart);
 
   const handleAdd = () => {
-    addToCart(product.id, quantity);
-    toast.success(`✅ ${product.name} (x${quantity}) added to cart!`);
+    if (product) {
+      addToCart(Number(product.id), quantity);
+      toast.success(`✅ ${product.name} (x${quantity}) added to cart!`);
+    }
   };
 
   useEffect(() => {

@@ -1,18 +1,15 @@
 // app/search/page.tsx
 import ProductCard from '@/components/ProductCard';
 import supabase from '@/lib/supabase';
-import Image from 'next/image';
 
-type SearchParams = {
-  searchParams: {
-    q: string;
-  };
-};
-
-export default async function SearchPage({ searchParams }: SearchParams) {
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: { q?: string };
+}) {
   const keyword = searchParams.q?.toLowerCase() || '';
 
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from('products')
     .select('id, name, price, unit, image_url, in_stock')
     .ilike('name', `%${keyword}%`);
@@ -20,7 +17,7 @@ export default async function SearchPage({ searchParams }: SearchParams) {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold mb-6">
-        Search Results for "{keyword}"
+        Search Results for &quot;{keyword}&quot;
       </h1>
 
       {data?.length === 0 ? (

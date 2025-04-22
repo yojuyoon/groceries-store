@@ -9,7 +9,7 @@ export type Product = {
   in_stock: number;
   category?: string;
   subcategory?: string;
-  created_at: string;
+  created_at?: string;
 };
 
 export type Order = {

@@ -1,14 +1,7 @@
 import CategoryGrid from '@/components/CategoryGrid';
-import Nav from '@/components/Nav';
 import ProductList from '@/components/ProductList';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-
-type Category = {
-  id: number;
-  name: string;
-  image_url: string;
-};
 
 export default function Home() {
   return (

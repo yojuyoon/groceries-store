@@ -6,6 +6,7 @@ import supabase from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 type ProductInfo = {
   id: number;
@@ -179,10 +180,12 @@ export default function CheckoutPage() {
             >
               <div className="flex gap-2 items-center">
                 {item?.image_url && (
-                  <img
+                  <Image
                     src={item.image_url}
                     alt={item.name}
-                    className="w-12 h-12 object-cover rounded"
+                    width={48}
+                    height={48}
+                    className="object-cover rounded"
                   />
                 )}
                 <div>

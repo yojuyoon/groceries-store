@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { Button } from './ui/button';
+import Image from 'next/image';
 
-type Product = {
+export type Product = {
   id: number;
   name: string;
   price: number;
@@ -14,10 +15,13 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <Link href={`/products/${product.id}`}>
       <div className="border rounded-lg p-4 shadow hover:shadow-md transition">
-        <img
+        <Image
           src={product.image_url || '/no-image.png'}
           alt={product.name}
+          width={400} // ✅ 반드시 width와 height 지정
+          height={160}
           className="w-full h-40 object-cover rounded mb-3"
+          unoptimized={product.image_url?.startsWith('http')} // 외부 URL일 경우 옵션 필요
         />
         <h3 className="text-lg font-semibold">{product.name}</h3>
         <div className="flex items-center justify-between">

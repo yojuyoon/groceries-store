@@ -7,23 +7,23 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function firework() {
-  var duration = 15 * 100;
-  var animationEnd = Date.now() + duration;
-  var defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 0 };
+  let duration = 15 * 100;
+  let animationEnd = Date.now() + duration;
+  let defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 0 };
   //  startVelocity: 범위, spread: 방향, ticks: 갯수
 
   function randomInRange(min: number, max: number) {
     return Math.random() * (max - min) + min;
   }
 
-  var interval = setInterval(function () {
-    var timeLeft = animationEnd - Date.now();
+  let interval = setInterval(function () {
+    let timeLeft = animationEnd - Date.now();
 
     if (timeLeft <= 0) {
       return clearInterval(interval);
     }
 
-    var particleCount = 50 * (timeLeft / duration);
+    let particleCount = 50 * (timeLeft / duration);
     // since particles fall down, start a bit higher than random
     confetti(
       Object.assign({}, defaults, {
