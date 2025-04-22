@@ -103,7 +103,6 @@ export default function CheckoutPage() {
 
     const orderId = orderData.id;
 
-    // 주문 상세 저장
     const orderItems = cartItems.map((item) => {
       const product = products.find((p) => p.id === item.productId)!;
       return {
@@ -116,7 +115,6 @@ export default function CheckoutPage() {
 
     await supabase.from('order_items').insert(orderItems);
 
-    // ✅ 2. 재고 감소 처리
     for (const item of cartItems) {
       const product = products.find((p) => p.id === item.productId);
 
@@ -169,7 +167,6 @@ export default function CheckoutPage() {
     <div className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-2xl font-bold mb-6">Checkout</h1>
 
-      {/* 상품 요약 표시 */}
       <div className="mb-6 border rounded p-4 bg-white shadow">
         <h2 className="text-lg font-semibold mb-3">Your Order</h2>
         <ul className="divide-y">
@@ -204,7 +201,6 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* 배송 정보 폼 */}
       <div className="space-y-4">
         <input
           name="name"

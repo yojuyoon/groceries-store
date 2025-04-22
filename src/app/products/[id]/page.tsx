@@ -108,7 +108,6 @@ export default function ProductDetailPage({ params }: Props) {
             : 'Out of Stock'}
         </p>
 
-        {/* 수량 선택 */}
         <div className="flex items-center gap-3 mb-6">
           <button
             onClick={decrement}
