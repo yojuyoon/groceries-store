@@ -184,9 +184,15 @@ export default function CartPage() {
           </div>
           <Button
             onClick={handleCheckout}
-            className="w-full bg-green-500 text-white py-2 flex items-center justify-center rounded hover:bg-green-600"
+            className={`w-full py-2 flex items-center justify-center rounded text-white font-medium transition
+              ${
+                cartItems.length === 0
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-green-500 hover:bg-green-600'
+              }
+            `}
           >
-            Proceed to checkout
+            Place an order
           </Button>
         </div>
       </div>

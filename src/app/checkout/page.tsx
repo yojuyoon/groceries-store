@@ -25,7 +25,9 @@ export default function CheckoutPage() {
     name: '',
     email: '',
     mobile: '',
-    address: '',
+    street: '',
+    city: '',
+    state: '',
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -41,7 +43,9 @@ export default function CheckoutPage() {
     fetchProducts();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -49,7 +53,7 @@ export default function CheckoutPage() {
   const validateForm = () => {
     const newErrors = [];
     if (!form.name.trim()) newErrors.push('Name is required');
-    if (!form.address.trim()) newErrors.push('Address is required');
+    if (!form.street.trim()) newErrors.push('Street address is required');
     if (!form.mobile.match(/^04\d{8}$/))
       newErrors.push('Valid Australian mobile number required');
     if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/))
@@ -79,13 +83,15 @@ export default function CheckoutPage() {
       return p ? sum + p.price * item.quantity : sum;
     }, 0);
 
+    const fullAddress = `${form.street}, ${form.city}, ${form.state}`;
+
     const { error: orderError, data: orderData } = await supabase
       .from('orders')
       .insert([
         {
           user_email: form.email,
           recipient_name: form.name,
-          address_street: form.address,
+          address_street: fullAddress,
           address_city: 'Sydney',
           address_state: 'NSW',
           mobile: form.mobile,
@@ -223,13 +229,44 @@ export default function CheckoutPage() {
           onChange={handleChange}
           className="w-full border px-4 py-2 rounded"
         />
-        <input
-          name="address"
-          placeholder="Street address"
-          value={form.address}
-          onChange={handleChange}
-          className="w-full border px-4 py-2 rounded"
-        />
+        <div className="space-y-4">
+          {/* Street Address */}
+          <input
+            name="street"
+            placeholder="Street address"
+            value={form.street}
+            onChange={handleChange}
+            className="w-full border px-4 py-2 rounded"
+          />
+
+          {/* City/Suburb */}
+          <input
+            name="city"
+            placeholder="City or Suburb"
+            value={form.city}
+            onChange={handleChange}
+            className="w-full border px-4 py-2 rounded"
+          />
+
+          {/* State/Territory Dropdown */}
+          <select
+            name="state"
+            value={form.state}
+            onChange={handleChange}
+            className="w-full border px-4 py-2 rounded bg-white"
+          >
+            <option value="">Select a state or territory</option>
+            <option value="NSW">New South Wales (NSW)</option>
+            <option value="VIC">Victoria (VIC)</option>
+            <option value="QLD">Queensland (QLD)</option>
+            <option value="WA">Western Australia (WA)</option>
+            <option value="SA">South Australia (SA)</option>
+            <option value="TAS">Tasmania (TAS)</option>
+            <option value="ACT">Australian Capital Territory (ACT)</option>
+            <option value="NT">Northern Territory (NT)</option>
+            <option value="OTHERS">Others</option>
+          </select>
+        </div>
 
         {errors.length > 0 && (
           <div className="bg-red-100 border text-red-700 p-3 rounded">
